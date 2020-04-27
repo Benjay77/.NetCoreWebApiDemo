@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NetCoreMicroServiceApi</name>
+    </assembly>
+    <members>
+        <member name="T:NetCoreShopMicroService.Controllers.ProductsController">
+            <summary>
+            产品API
+            </summary>
+        </member>
+        <member name="M:NetCoreShopMicroService.Controllers.ProductsController.GetProductsAsync">
+            <summary>
+            获取产品数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:NetCoreMicroService.Extentions.ServiceExtensions">
+            <summary>
+            服务扩展方法
+            </summary>
+        </member>
+        <member name="M:NetCoreMicroService.Extentions.ServiceExtensions.ConfigureCors(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            跨域服务
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:NetCoreMicroService.Extentions.ServiceExtensions.ConfigureSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Swagger
+            </summary>
+            <param name="services"></param>
+        </member>
+    </members>
+</doc>
