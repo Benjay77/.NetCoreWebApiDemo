@@ -81,7 +81,7 @@ namespace IdentityServer
                     AllowAccessTokensViaBrowser = true,//是否通过浏览器为此客户端传输访问令牌
                     RedirectUris =
                     {
-                        "https://localhost:5000/swagger/oauth2-redirect.html"
+                        "http://localhost:5000/swagger/oauth2-redirect.html"
                     },
                     AllowedScopes =
                     {
