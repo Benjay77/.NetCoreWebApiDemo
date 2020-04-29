@@ -137,5 +137,71 @@ namespace IdentityServerConsoleClient
                 throw;
             }
         }
+
+        public static async Task Admin()
+        {
+            try
+            {
+                var client = new HttpClient();
+                var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5000/");
+                if (disco.IsError)
+                {
+                    Console.WriteLine(disco.Error);
+                    return;
+                }
+
+                var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+                {
+                    Address = disco.TokenEndpoint,
+                    ClientId = "IdentityServerConsoleClient",
+                    ClientSecret = "511536EF-F270-4058-80CA-1C89C192F69A",
+                    Scope = "IdentityServerApi"
+                });
+
+                if (tokenResponse.IsError)
+                {
+                    Console.WriteLine(tokenResponse.Error);
+                    return;
+                }
+                Console.WriteLine(tokenResponse.Json);
+                var adminClient = new HttpClient();
+                adminClient.SetBearerToken(tokenResponse.AccessToken);
+
+                Client c2 = new Client
+                {
+                    ClientId = "admin",
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    AllowedScopes = { "IdentityServerApi" }
+                    //,Claims = new List<Claim>
+                    //{
+                    //    new Claim(JwtClaimTypes.Role, "admin")
+                    //},
+                    //ClientClaimsPrefix = "" //把client_ 前缀去掉
+                };
+                string strJson = JsonConvert.SerializeObject(c2.ToEntity());
+                HttpContent content = new StringContent(strJson);
+                content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                //由HttpClient发出Post请求
+                Task<HttpResponseMessage> response = client.PostAsync("http://localhost:5000/api/Client/", content);
+
+                if (response.Result.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    Console.WriteLine(response.Result.StatusCode);
+                }
+                else
+                {
+                    Console.WriteLine(response.Result.Content.ReadAsStringAsync().Result);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
     }
 }

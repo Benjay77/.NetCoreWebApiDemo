@@ -12,7 +12,7 @@ namespace IdentityServer.Controllers
 {
     [EnableCors("any")]
     [Route("[controller]/[Action]")]
-    [Authorize]
+    [Authorize(Roles ="admin")]
     public class BaseController : Controller
     {
 
